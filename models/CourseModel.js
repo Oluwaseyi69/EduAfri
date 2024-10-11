@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const reviewSchema = new Schema({
+    student: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the user who wrote the review
+    rating: { type: Number, required: true, min: 1, max: 5 }, // Rating from 1 to 5
+    comment: { type: String, required: true }, // Review comment
+    createdAt: { type: Date, default: Date.now } // Timestamp for when the review was submitted
+});
+
+
 const courseSchema = new Schema({
     title: {
         type: String,
@@ -18,10 +26,7 @@ const courseSchema = new Schema({
         type: Number,
         default: 0
     },
-    reviews: {
-        type: Number,
-        default: 0
-    },
+
     instructorName: {
         type: String,
         ref: 'User',
@@ -32,6 +37,7 @@ const courseSchema = new Schema({
         ref: 'category',
         // required: true
     },
+    reviews: [reviewSchema], // Array of reviews
 
     certificates:{
         type: String,
@@ -41,6 +47,7 @@ const courseSchema = new Schema({
         type: Number,
         default: 0,
     },
+    enrolledStudents: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Course', courseSchema);

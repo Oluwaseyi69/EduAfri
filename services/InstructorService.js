@@ -29,14 +29,10 @@ class InstructorService {
     }
 
     // Delete a course
-    async deleteCourse(instructorId, courseId) {
+    async deleteCourse( courseId) {
         const course = await CourseRepository.findById(courseId);
         if (!course) {
             throw new Error("Course not found");
-        }
-
-        if (course.instructor !== instructorId) {
-            throw new Error("Only the instructor who created the course can delete it");
         }
 
         await CourseRepository.delete(courseId);

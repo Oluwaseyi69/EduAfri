@@ -40,6 +40,7 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['student', 'instructor'], required: true },
+    enrolledCourses: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
 }, { timestamps: true });
 
 

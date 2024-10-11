@@ -21,14 +21,16 @@ class StudentController {
     // Enroll in a course
     async enrollCourse(req, res) {
         try {
-            const { courseId } = req.params; // Assume courseId is sent in URL
+            const { courseId } = req.params;
             // const studentId = req.user._id;  // Extract student ID from authenticated user
+            const studentEmail = req.user.email;
 
-
-            const result = await StudentService.enrollCourse(courseId);  // Call StudentService
+            const result = await StudentService.enrollCourse(studentEmail, courseId);
             res.status(200).json({
                 message: 'Successfully enrolled in the course',
-                result
+                result,
+                course: result.course,
+                student: result.student
             });
         } catch (error) {
             res.status(400).json({
@@ -41,14 +43,18 @@ class StudentController {
     // Leave a review for a course
     async leaveReview(req, res) {
         try {
-            const studentId = req.user._id;  // Extract student ID from authenticated user
+            const studentEmail = req.user.email;  // Extract student ID from authenticated user
             const courseId = req.params.courseId;  // Extract course ID from request params
             const reviewData = req.body;  // Extract review content from request body
 
-            const result = await StudentService.addReview(studentId, courseId, reviewData);  // Call StudentService
+            const result = await StudentService.addReview(studentEmail, courseId, reviewData);  // Call StudentService
             res.status(200).json({
                 message: 'Review submitted successfully',
-                result
+                result,
+                course: result.courseTitle,
+                student: result.studentName,
+                rating: result.rating,
+                comment: result.comment
             });
         } catch (error) {
             res.status(400).json({
