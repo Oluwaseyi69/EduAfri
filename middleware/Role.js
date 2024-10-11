@@ -42,7 +42,9 @@ const roleMiddleware = {
     authorizeInstructor: (token) => async (req, res, next) => {
         try {
             // Verify token and extract role
+            console.log(token)
             const decoded = jwtUtil.verifyToken(token);
+            console.log(decoded);
 
             if (decoded.role !== 'instructor') {
                 return res.status(403).send({ error: 'Access denied. Instructor role required.' });

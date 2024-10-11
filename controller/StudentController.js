@@ -3,14 +3,29 @@ const authMiddleware = require('../middleware/Auth');
 const roleMiddleware = require('../middleware/Role');
 
 class StudentController {
+    async viewCourses(req, res ){
+        try {
+            const foundCourses = await StudentService.viewCourses();  // Call StudentService
+            res.status(200).json({
+                message: 'Courses found',
+                courses: foundCourses
+            });
+        } catch (error) {
+            res.status(400).json({
+                message: 'Failed to find courses',
+                error: error.message
+            });
+        }
+    }
 
     // Enroll in a course
     async enrollCourse(req, res) {
         try {
-            const studentId = req.user._id;  // Extract student ID from authenticated user
-            const courseId = req.params.courseId;  // Extract course ID from request params
+            const { courseId } = req.params; // Assume courseId is sent in URL
+            // const studentId = req.user._id;  // Extract student ID from authenticated user
 
-            const result = await StudentService.enrollCourse(studentId, courseId);  // Call StudentService
+
+            const result = await StudentService.enrollCourse(courseId);  // Call StudentService
             res.status(200).json({
                 message: 'Successfully enrolled in the course',
                 result

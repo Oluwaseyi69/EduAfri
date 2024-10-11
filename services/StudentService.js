@@ -1,17 +1,33 @@
 const CourseRepository = require('../repositories/CourseRepository');
 const EnrollmentRepository = require('../repositories/EnrollmentRepository');
 const ReviewRepository = require('../repositories/ReviewRepository');
+const mongoose = require('mongoose');
 
 class StudentService {
+
+    async viewCourses (){
+        return await CourseRepository.findAll();
+    }
     // Enroll a student in a course
-    async enrollCourse(studentId, courseId) {
+    async enrollCourse(courseId) {
+
+
+
+        console.log("Enrolling", courseId);
+        if (!courseId ) {
+            throw new Error("Course ID and Student ID are required");
+        }
+
         const course = await CourseRepository.findById(courseId);
+        console.log(course)
         if (!course) {
             throw new Error("Course not found");
         }
+        // Update the enrollment count
+        course.enrollmentCount += 1;
 
         const enrollment = {
-            student: studentId,
+
             course: courseId,
         };
 

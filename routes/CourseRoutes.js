@@ -52,26 +52,12 @@
 const express = require('express');
 const authMiddleware = require('../middleware/Auth');
 const roleMiddleware = require('../middleware/Role');
-const CourseService = require('../services/CourseService');
+const CourseService = require('../services/InstructorService');
+const courseController = require('../controller/InstructorController');
 
 const router = express.Router();
 
-// Instructor creates a course
-router.post(
-    '/courses',
-    authMiddleware.authenticate,
-    (req, res, next) => {
-        const token = req.header('Authorization')?.replace('Bearer ', '');
-        return roleMiddleware.authorizeInstructor(token)(req, res, next);
-    },
-    async (req, res) => {
-        try {
-            const result = await CourseService.createCourse(req.user._id, req.body);
-            res.status(201).json(result);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    }
-);
+router.post('/courses', authMiddleware.authenticate, courseController.addCourse);
+router.put('/updateCourse/:courseId', authMiddleware.authenticate, courseController.updateCourse)
 
 module.exports = router; // Ensure this exports the router

@@ -3,11 +3,11 @@ const Course = require('../models/CourseModel');
 class CourseRepository {
     async create(course) {
         const newCourse = new Course(course);
-        return await newCourse.save();
+        return newCourse.save();
     }
 
     async findById(courseId) {
-        return await Course.findById(courseId);
+        return Course.findById(courseId);
     }
 
     async findAll() {

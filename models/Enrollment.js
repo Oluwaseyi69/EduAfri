@@ -5,7 +5,7 @@ const enrollmentSchema = new Schema({
     student: {
         type: Schema.Types.ObjectId,
         ref: 'Student',
-        required: true
+        // required: true
     },
     course: {
         type: Schema.Types.ObjectId,

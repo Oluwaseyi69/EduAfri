@@ -5,6 +5,7 @@ const app = express()
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/AuthRoutes')
 const courseRoutes = require('./routes/CourseRoutes')
+const studentRoutes = require('./routes/StudentRoutes')
 const bodyParser = require('body-parser');
 
 
@@ -18,6 +19,7 @@ connectDB();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
+app.use('/api/students', studentRoutes);
 
 
 

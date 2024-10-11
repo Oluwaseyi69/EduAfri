@@ -45,6 +45,7 @@ class UserService {
         return {
             Token: token,
             message: 'Registered successfully',
+            userId: user.id,
             user: user.username,
             role: user.role
         };
@@ -77,12 +78,14 @@ class UserService {
             id: user._id,
             email: user.email,
             username: user.username,
+            role: user.role,
         });
 
         return {
             token,
             message: 'Logged in successfully',
             user: user.username,
+            role: user.role
         };
     }
     async changePassword(userEmail, changePasswordDto) {

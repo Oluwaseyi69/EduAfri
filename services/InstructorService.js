@@ -1,38 +1,27 @@
 const CourseRepository = require('../repositories/CourseRepository');
 const CourseCategoryRepository = require('../repositories/CourseCategoryRepository');
 const CertificateRepository = require('../repositories/CertificateRepository');
+const UserRepository = require('../repositories/UserRepository');
+const mongoose = require('mongoose');
 
-class CourseService {
+class InstructorService {
     // Create a new course
-    async createCourse(instructorId, courseDto) {
-        const course = {
-            title: courseDto.title,
-            description: courseDto.description,
-            instructor: instructorId,
-            category: courseDto.category, // category ID from CourseCategory
-            certificates: courseDto.certificates, // certificate IDs from CertificateRepository
-            price: courseDto.price
-        };
+    async createCourse(courseDto) {
+        console.log('Creating', courseDto)
 
-        await CourseRepository.create(course);
-        return {
-            message: 'Course created successfully',
-            course,
-        };
+        return await CourseRepository.create(courseDto);
+
     }
 
     // Update course details
-    async updateCourse(instructorId, courseId, updateFields) {
+    async updateCourse( courseId, updatedData) {
         const course = await CourseRepository.findById(courseId);
         if (!course) {
             throw new Error("Course not found");
         }
 
-        if (course.instructor !== instructorId) {
-            throw new Error("Only the instructor who created the course can update it");
-        }
 
-        const updatedCourse = await CourseRepository.update(courseId, updateFields);
+        const updatedCourse = await CourseRepository.update(courseId, updatedData);
         return {
             message: 'Course updated successfully',
             updatedCourse,
@@ -97,4 +86,4 @@ class CourseService {
     }
 }
 
-module.exports = new CourseService();
+module.exports = new InstructorService();

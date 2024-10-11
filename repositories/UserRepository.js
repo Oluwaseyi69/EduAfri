@@ -9,14 +9,17 @@ class UserRepository {
         return UserModel.findOne({email: email});
     }
 
-    async findById(id){
-        return UserModel.findById({id});
+    // async findById(id){
+    //     return UserModel.findById({id});
+    // }
+    async findByRole(role) {
+        return UserModel.findOne({role: role});
     }
 
 
-    // async findById(userId) {
-    //     return UserModel.findById(userId);
-    // }
+    async findById(id) {
+        return UserModel.findById(id);
+    }
 
     // Update user (this can be used to update the password as well)
     async update(id, updateFields) {
